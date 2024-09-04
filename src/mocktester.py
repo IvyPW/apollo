@@ -1,5 +1,6 @@
 import argparse
 import base64
+from datetime import datetime
 import os
 from PIL import Image, ImageDraw
 
@@ -50,6 +51,12 @@ def svg_to_base64(svg_file_path):
     return base64_data
 
 def generate_html(root_path, html_name):
+
+    # Get the current date and time
+    now = datetime.now()
+
+    # Print the date and time
+    print("Current date and time:", now)
     output_html_path = os.path.join(root_path, html_name)
     # Define image extensions
     image_extensions = ['.png', '.jpg', '.jpeg', '.gif', '.svg']
@@ -63,6 +70,7 @@ def generate_html(root_path, html_name):
 
     # Generate HTML content
     html_content = '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<title>File List</title>\n</head>\n<body>\n'
+    html_content += f'<h1>Time: {now}</h1>\n'
     html_content += '<h1>Logs</h1>\n<ul>\n'
 
     # Add non-image files to HTML
