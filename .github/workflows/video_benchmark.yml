@@ -1,0 +1,58 @@
+name: Vedio Benchmark Test
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  run_test:
+    runs-on: ubuntu-latest
+    name: Run test
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: pip install pillow  # This installs the Pillow library for generating the image
+
+      - name: Run Automation Tests
+        run: |
+            python src/mocktester.py --output $GITHUB_RUN_ID
+
+      - name: Deploy test results to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs    # This is the root directory for GitHub Pages
+          destination_dir: 'docs'       # Ensure all files are placed under /docs
+          keep_files: true             # Keep all previous test results in the /docs folder
+
+      - name: Sleep for 60 seconds
+        run: sleep 60
+
+      - name: Add github pages links to summary
+        run: |
+          echo "## Generated Reports" >> $GITHUB_STEP_SUMMARY
+          echo "[Test Report](https://euc-eng.github.io/blast-bj-auto/videobenchmark/reports/$GITHUB_RUN_ID/index.html)" >> $GITHUB_STEP_SUMMARY
+          echo "<img src=\"https://euc-eng.github.io/blast-bj-auto/videobenchmark/reports/$GITHUB_RUN_ID/image.svg\" alt=\"My SVG Image\" />" >> $GITHUB_STEP_SUMMARY
+          echo "![External Image](https://example.com/image.png)" >> $GITHUB_STEP_SUMMARY
+          echo "![Blue Circle](data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+CiAgPGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDAiIGZpbGw9ImJsdWUiIC8+Cjwvc3ZnPg==)" >> $GITHUB_STEP_SUMMARY
+      - name: Print environment variables
+        if: always()
+        run: printenv
