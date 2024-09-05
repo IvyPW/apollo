@@ -12,7 +12,7 @@ def create_output_dir(root_dir, args):
     dir_under_docs = os.path.join("videobenchmark","reports")
     report_dir = os.path.join(output_dir, dir_under_docs)
     if (args.output):
-        output_dir = os.path.join(args.output, report_dir)
+        output_dir = os.path.join(report_dir,args.output)
     else:
         output_dir = report_dir
     os.makedirs(output_dir, exist_ok=True)
