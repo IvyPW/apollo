@@ -51,6 +51,7 @@ jobs:
           echo "GitHub Pages URL: ${PAGES_URL}"
           echo "## Generated Reports" >> $GITHUB_STEP_SUMMARY
           echo "[Test Report]($PAGES_URL/videobenchmark/reports/$GITHUB_RUN_ID/index.html)" >> $GITHUB_STEP_SUMMARY
+          echo "![github page Image]($PAGES_URL/videobenchmark/reports/10721731302/benchmark.svg)" >> $GITHUB_STEP_SUMMARY
           echo "![External Image](https://vecta.io/blog/tips-for-smaller-svg-sizes/music-original.2260c45635.svg) External link SVG" >> $GITHUB_STEP_SUMMARY
           echo "![Blue Circle](data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+CiAgPGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDAiIGZpbGw9ImJsdWUiIC8+Cjwvc3ZnPg==)" >> $GITHUB_STEP_SUMMARY
       - name: Print environment variables
